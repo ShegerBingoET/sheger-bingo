@@ -55,7 +55,7 @@ h2 {
 
 #numbers {
     display: grid;
-    grid-template-columns: repeat(12, minmax(0, 1fr));
+    grid-template-columns: repeat(8, minmax(0, 1fr));
     gap: 4px;
     margin: 8px 0;
 }
@@ -127,7 +127,7 @@ input {
     }
 
     #numbers {
-        grid-template-columns: repeat(12, minmax(0, 1fr));
+        grid-template-columns: repeat(8, minmax(0, 1fr));
         gap: 3px;
     }
 

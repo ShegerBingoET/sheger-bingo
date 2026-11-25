@@ -134,7 +134,8 @@ function playGame() {
 
     document.getElementById("play").textContent = playWallet;
     document.getElementById("accountPlay").textContent = playWallet;
-}const params = new URLSearchParams(window.location.search);
+}
+const params = new URLSearchParams(window.location.search);
 
 if (params.get("page") === "game") {
     showGame();

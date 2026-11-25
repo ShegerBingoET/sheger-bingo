@@ -12,8 +12,7 @@ function showPage(pageId) {
 }
 
 function showMenu() {
-    window.location.href = "https://shegerbingoet.github.io/sheger-bingo/";
-}
+    showPage("menu");
 }
 
 function showGame() {

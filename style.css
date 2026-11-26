@@ -147,3 +147,76 @@ input {
     grid-template-columns: repeat(8, minmax(0, 1fr)) !important;
     gap: 5px !important;
 }
+/* SHEGER BINGO NEW HOME MENU */
+
+.home-menu {
+    padding: 12px;
+}
+
+.home-header {
+    background: linear-gradient(135deg, #30245f, #171936);
+    border: 2px solid #d6ad45;
+    border-radius: 18px;
+    padding: 22px 10px;
+    margin-bottom: 22px;
+}
+
+.home-header h1 {
+    color: #ffd45a;
+    font-size: 25px;
+    margin: 5px 0 10px;
+}
+
+.home-header p {
+    color: white;
+    font-size: 16px;
+}
+
+.home-header span {
+    color: #ffd45a;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 13px;
+}
+
+.menu-btn {
+    background: linear-gradient(145deg, #453477, #30245f);
+    color: #ffd45a;
+    border: 2px solid #d6ad45;
+    border-radius: 16px;
+    min-height: 105px;
+    padding: 15px 5px;
+    font-size: 30px;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 9px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.menu-btn span {
+    font-size: 13px;
+    color: white;
+}
+
+.menu-btn:active {
+    transform: scale(0.96);
+    background: #59448d;
+}
+
+.home-footer {
+    background: #30245f;
+    border-radius: 12px;
+    margin-top: 22px;
+    padding: 10px;
+    color: #ffd45a;
+    font-weight: bold;
+}

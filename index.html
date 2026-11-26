@@ -14,17 +14,52 @@
 </header>
 
 <!-- MAIN MENU -->
-<section id="menu">
-    <h2>Main Menu</h2>
-    <button onclick="showGame()">🚀 Start</button>
-    <button onclick="showRegister()">📝 Register</button>
-    <button onclick="showGame()">🎮 Play</button>
-    <button onclick="alert('Deposit coming soon!')">💳 Deposit</button>
-    <button onclick="showAccountInfo()">💰 Balance</button>
-    <button onclick="alert('Withdraw coming soon!')">🏧 Withdraw</button>
-    <button onclick="alert('Transfer coming soon!')">🔄 Transfer</button>
-    <button onclick="alert('Invite coming soon!')">👥 Invite</button>
-    <button onclick="alert('Choose a number from 1 to 600!')">📖 Instruction</button>
+<section id="menu" class="home-menu">
+
+    <header class="home-header">
+        <h1>🎱 SHEGER BINGO</h1>
+        <p>Welcome to Sheger Bingo!</p>
+        <span>⭐ GOOD LUCK! ⭐</span>
+    </header>
+
+    <div class="menu-grid">
+
+        <button class="menu-btn" onclick="showGame()">
+            🎮
+            <span>PLAY BINGO</span>
+        </button>
+
+        <button class="menu-btn" onclick="showAccountInfo()">
+            👤
+            <span>MY ACCOUNT</span>
+        </button>
+
+        <button class="menu-btn" onclick="showBalance()">
+    💰
+    <span>BALANCE</span>
+</button>
+
+        <button class="menu-btn" onclick="showHistory()">
+            📜
+            <span>HISTORY</span>
+        </button>
+
+        <button class="menu-btn" onclick="showRegister()">
+            📝
+            <span>REGISTER</span>
+        </button>
+
+        <button class="menu-btn" onclick="alert('Choose a number from 1 to 600!')">
+            📖
+            <span>INSTRUCTION</span>
+        </button>
+
+    </div>
+
+    <footer class="home-footer">
+        <p>⭐ Enjoy Playing Sheger Bingo ⭐</p>
+    </footer>
+
 </section>
 
 <!-- REGISTER PAGE -->
@@ -49,13 +84,6 @@
     <p>Name: <span id="accountName">-</span></p>
     <p>Phone: <span id="accountPhone">-</span></p>
 
-    <hr>
-
-    <h3>💰 BALANCE</h3>
-    <p>Main Wallet: <span id="accountMain">1000</span></p>
-    <p>Play Wallet: <span id="accountPlay">100</span></p>
-    <p>Coin: <span id="accountCoin">0</span></p>
-
     <h3>ACCOUNT CODE</h3>
     <p id="accountCode">-</p>
     <button onclick="copyCode()">COPY CODE</button>
@@ -64,6 +92,25 @@
     <button onclick="showMenu()">⬅ BACK TO MENU</button>
 </section>
 
+<section id="balance" style="display:none;">
+    <h2>💰 BALANCE</h2>
+
+    <p>Main Wallet: <span id="balanceMain">1000</span></p>
+    <p>Play Wallet: <span id="balancePlay">100</span></p>
+    <p>Coin: <span id="balanceCoin">0</span></p>
+
+    <button onclick="showMenu()">⬅ BACK TO MENU</button>
+</section>
+
+<section id="history" style="display:none;">
+    <h2>📜 TRANSACTION HISTORY</h2>
+
+    <div id="transactionHistory">
+        <p>No transactions yet.</p>
+    </div>
+
+    <button onclick="showMenu()">⬅ BACK TO MENU</button>
+</section>
 <!-- GAME PAGE -->
 <section id="game" style="display:none;">
 
@@ -76,6 +123,14 @@
             Stake:
             <input type="number" id="stakeInput" value="10" min="1">
         </div>
+        <div>
+            Transfer Amount:
+            <input type="number" id="transferAmount" value="10" min="1">
+        </div>
+
+        <button onclick="transferToPlay()">
+            TRANSFER TO PLAY
+        </button>
     </section>
 
     <h2>Choose Your Number (1–600)</h2>

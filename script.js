@@ -1,8 +1,96 @@
 let selected = null;
-let playWallet = 100;
+
+let mainWallet = Number(localStorage.getItem("sbMainWallet"));
+let playWallet = Number(localStorage.getItem("sbPlayWallet"));
+
+if (!localStorage.getItem("sbMainWallet")) {
+    mainWallet = 1000;
+}
+
+if (!localStorage.getItem("sbPlayWallet")) {
+    playWallet = 100;
+}
+
 let stake = 10;
 
-const pages = ["menu", "register", "account", "game"];
+function saveWallets() {
+    localStorage.setItem("sbMainWallet", mainWallet);
+    localStorage.setItem("sbPlayWallet", playWallet);
+}
+
+document.getElementById("main").textContent = mainWallet;
+document.getElementById("play").textContent = playWallet;
+function addTransaction(type, details) {
+    let history = JSON.parse(
+        localStorage.getItem("sbTransactions") || "[]"
+    );
+
+    history.unshift({
+        type: type,
+        details: details,
+        date: new Date().toLocaleString()
+    });
+
+    localStorage.setItem(
+        "sbTransactions",
+        JSON.stringify(history)
+    );
+}
+
+function showTransactionHistory() {
+    const box = document.getElementById("transactionHistory");
+
+    let history = JSON.parse(
+        localStorage.getItem("sbTransactions") || "[]"
+    );
+
+    box.innerHTML = "";
+
+    if (history.length === 0) {
+        box.textContent = "No transactions yet.";
+        return;
+    }
+
+    history.forEach(item => {
+        const p = document.createElement("p");
+
+        p.textContent =
+            item.date + " - " + item.type + ": " + item.details;
+
+        box.appendChild(p);
+    });
+}
+function transferToPlay() {
+    const amount = Number(
+        document.getElementById("transferAmount").value
+    );
+
+    if (!Number.isInteger(amount) || amount < 1) {
+        alert("Qarshii sirrii galchi!");
+        return;
+    }
+
+    if (amount > mainWallet) {
+        alert("Main Wallet kee gahaa miti!");
+        return;
+    }
+
+    mainWallet -= amount;
+    playWallet += amount;
+    saveWallets();
+
+    document.getElementById("main").textContent = mainWallet;
+    document.getElementById("play").textContent = playWallet;
+    document.getElementById("accountPlay").textContent = playWallet;
+    addTransaction(
+    "TRANSFER",
+    amount + " points moved to Play Wallet"
+);
+
+    alert("Transfer successful!");
+}
+
+const pages = ["menu", "register", "account", "balance", "history", "game"];
 
 function showPage(pageId) {
     pages.forEach(id => {
@@ -36,7 +124,11 @@ function registerAccount() {
         return;
     }
 
-    const code = "SB" + Math.floor(100000 + Math.random() * 900000);
+    let code = localStorage.getItem("sbCode");
+
+    if (!code) {
+        code = "SB" + Math.floor(100000 + Math.random() * 900000);
+    }
 
     localStorage.setItem("sbName", name);
     localStorage.setItem("sbPhone", phone);
@@ -45,7 +137,6 @@ function registerAccount() {
     alert("Registration successful!");
     showMenu();
 }
-
 function copyCode() {
     const code = localStorage.getItem("sbCode");
 
@@ -69,9 +160,22 @@ function showAccountInfo() {
     document.getElementById("accountCode").textContent =
         localStorage.getItem("sbCode") || "-";
 
-    document.getElementById("accountPlay").textContent = playWallet;
-
     showPage("account");
+}
+
+function showBalance() {
+    document.getElementById("balanceMain").textContent = mainWallet;
+    document.getElementById("balancePlay").textContent = playWallet;
+
+    document.getElementById("balanceCoin").textContent =
+        localStorage.getItem("sbCoin") || 0;
+
+    showPage("balance");
+}
+
+function showHistory() {
+    showTransactionHistory();
+    showPage("history");
 }
 
 const grid = document.getElementById("numbers");
@@ -112,30 +216,56 @@ function playGame() {
         return;
     }
 
-    if (playWallet < stake) {
-        alert("Play Wallet kee gahaa miti!");
+    const playPart = Math.min(playWallet, stake);
+    const mainPart = stake - playPart;
+
+    if (mainWallet < mainPart) {
+        alert("Wallet kee keessatti qarshiin gahaan hin jiru!");
         return;
     }
 
-    playWallet -= stake;
+    playWallet -= playPart;
+    mainWallet -= mainPart;
 
     const winningNumber = Math.floor(Math.random() * 600) + 1;
 
     if (selected === winningNumber) {
-        playWallet += stake * 5;
+        const prize = stake * 5;
+        mainWallet += prize;
+
         document.getElementById("result").textContent =
-            "Congratulations! You matched " + winningNumber;
+            "Congratulations! You won " + prize +
+            "! Number: " + winningNumber;
     } else {
         document.getElementById("result").textContent =
             "Number drawn: " + winningNumber +
             ". Your number: " + selected;
+            addTransaction(
+        "GAME",
+        "Stake: " + stake +
+        " points | " +
+        (selected === winningNumber
+            ? "WON! Prize: " + (stake * 5) + " points"
+            : "LOST | Number drawn: " + winningNumber)
+    );
     }
 
+    document.getElementById("main").textContent = mainWallet;
     document.getElementById("play").textContent = playWallet;
+    saveWallets();
     document.getElementById("accountPlay").textContent = playWallet;
 }
 const params = new URLSearchParams(window.location.search);
 
 if (params.get("page") === "game") {
     showGame();
+} else {
+    const savedName = localStorage.getItem("sbName");
+    const savedPhone = localStorage.getItem("sbPhone");
+
+    if (savedName && savedPhone) {
+        showMenu();
+    } else {
+        showRegister();
+    }
 }
